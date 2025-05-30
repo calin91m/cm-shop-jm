@@ -1,4 +1,4 @@
-import { CircleUser, MenuIcon, User2Icon } from "lucide-react";
+import { MenuIcon, User2Icon } from "lucide-react";
 import { DashboardNavigation } from "./DashboardNavigation";
 import {
   DropdownMenu,
