@@ -1,15 +1,41 @@
-import { MenuIcon, SearchIcon, ShoppingBagIcon } from "lucide-react";
+import { MenuIcon, SearchIcon, ShoppingBagIcon, User2 } from "lucide-react";
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ShopNavigation } from "./ShopNavigation";
 import { UserNavigation } from "./UserNavigation";
 import Link from "next/link";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import {
+  RegisterLink,
+  LoginLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
-export function Header() {
+export async function Header() {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
   return (
     <header className="w-full  sticky top-0 z-50">
-      <div className={"w-full transform transition-transform duration-300 ease-in-out border-b bg-background "}>
+      <div
+        className={
+          "w-full transform transition-transform duration-300 ease-in-out border-b bg-background "
+        }
+      >
         <div
           className="
             max-w-[1440px] mx-auto
@@ -37,7 +63,7 @@ export function Header() {
             <div className="flex items-center text-2xl font-bold">
               <Link href="/">
                 <span className="text-blue-500">Shop</span>
-                <span>LOGO</span>
+                <span className="text-gray-800">LOGO</span>
               </Link>
             </div>
           </div>
@@ -49,14 +75,92 @@ export function Header() {
           <div className="hidden md:flex items-center justify-center text-2xl font-bold md:col-start-2">
             <Link href="/">
               <span className="text-blue-500">Shop</span>
-              <span>LOGO</span>
+              <span className="text-gray-800">LOGO</span>
             </Link>
           </div>
           {/* Desktop: Icons */}
           <div className="flex items-center gap-4 md:justify-end md:col-start-3">
-            <SearchIcon />
-            <ShoppingBagIcon />
-            <UserNavigation />
+            {user ? (
+              <>
+                <SearchIcon />
+                <Link href="/cart" className="group flex items-center relative">
+                  <ShoppingBagIcon className="text-gray-800 group-hover:text-primary" />
+                  <span className="absolute -top-1 -right-2 bg-primary text-white text-xs font-bold rounded-full px-1.5 py-0.5">
+                    5
+                  </span>
+                </Link>
+                <UserNavigation
+                  userImage={
+                    user.picture ??
+                    `https://avatar.vercel.sh/${user.given_name}`
+                  }
+                  email={user.email as string}
+                  name={user.given_name as string}
+                />
+              </>
+            ) : (
+              <>
+                <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-2">
+                  <SearchIcon />
+                  <Button asChild variant="outline">
+                    <LoginLink>Sign In</LoginLink>
+                  </Button>
+                  <span className="h-6 w-px bg-gray-200"></span>
+                  <Button asChild variant="outline">
+                    <RegisterLink>Create Account</RegisterLink>
+                  </Button>
+                  <Link
+                    href="/cart"
+                    className="group flex items-center relative"
+                  >
+                    <ShoppingBagIcon className="text-gray-800 group-hover:text-primary" />
+                    <span className="absolute -top-1 -right-2 bg-primary text-white text-xs font-bold rounded-full px-1.5 py-0.5">
+                      5
+                    </span>
+                  </Link>
+                </div>
+                <div className="md:hidden flex items-center gap-4">
+                  <SearchIcon />
+                  <Link
+                    href="/cart"
+                    className="group flex items-center relative "
+                  >
+                    <ShoppingBagIcon className="text-gray-800 group-hover:text-primary" />
+                    <span className="absolute -top-1 -right-2 bg-primary text-white text-xs font-bold rounded-full px-1.5 py-0.5">
+                      5
+                    </span>
+                  </Link>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="rounded-full relative w-10 h-10"
+                      >
+                        <Avatar className="w-10 h-10">
+                          <AvatarFallback>
+                            <User2 className="w-10 h-10" />
+                          </AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      align="end"
+                      className="w-56"
+                      forceMount
+                    >
+                      <DropdownMenuLabel>Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <LoginLink>Sign In</LoginLink>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <RegisterLink>Create Account</RegisterLink>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

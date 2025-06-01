@@ -11,12 +11,12 @@ import {
 import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { deleteProduct } from "@/app/actions";
+import { deleteBanner } from "@/app/actions";
 import { SubmitButtons } from "@/app/dashboard/components/SubmitButtons";
 
 type SubmissionResult = { status: "success" } | null;
 
-export default function DeleteProduct(props: {
+export default function BannerDeleteRoute(props: {
   params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
@@ -25,7 +25,7 @@ export default function DeleteProduct(props: {
 
   React.useEffect(() => {
     if (lastResult && lastResult.status === "success") {
-      router.push("/dashboard/products");
+      router.push("/dashboard/banner");
     }
   }, [lastResult, router]);
 
@@ -33,23 +33,23 @@ export default function DeleteProduct(props: {
     <div className="h-[80vh] w-full flex items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Are you sure you want to delete this product?</CardTitle>
+          <CardTitle>Are you sure you want to delete this banner?</CardTitle>
           <CardDescription>
             This action is irreversible. This will permanently delete the
-            product.
+            banner.
           </CardDescription>
         </CardHeader>
         <CardFooter className="w-full flex justify-end gap-4">
           <Button variant="outline">
-            <Link href="/dashboard/products">Cancel</Link>
+            <Link href="/dashboard/banner">Cancel</Link>
           </Button>
           <form
             action={async (formData: FormData) => {
-              const result = await deleteProduct(undefined, formData);
+              const result = await deleteBanner(undefined, formData);
               setLastResult(result);
             }}
           >
-            <input type="hidden" name="productId" value={id} />
+            <input type="hidden" name="bannerId" value={id} />
             <SubmitButtons text="Delete" variant="destructive"></SubmitButtons>
           </form>
         </CardFooter>

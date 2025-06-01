@@ -35,6 +35,13 @@ model Product {
   isFeatured  Boolean       @default(false)
 }
 
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  image     String
+  createdAt DateTime @default(now())
+}
+
 enum ProductStatus {
   draft
   published

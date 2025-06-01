@@ -1,4 +1,3 @@
-import { User2Icon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,43 +6,38 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { RegisterLink, LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { Button } from "./ui/button";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-export async function UserNavigation() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
-  if (!user) {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon" className="rounded-full">
-            <User2Icon className="w-8 h-8 " />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <LoginLink>Log in</LoginLink>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <RegisterLink>Register</RegisterLink>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  }
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+
+interface iAppProps {
+  email: string;
+  name: string;
+  userImage: string;
+}
+
+export async function UserNavigation({ email, name, userImage }: iAppProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="rounded-full">
-          <User2Icon className="w-8 h-8" />
+        <Button variant="ghost" className="rounded-full relative w-10 h-10">
+          <Avatar className="w-10 h-10">
+            <AvatarImage
+              src={userImage}
+              alt={name}
+              className="w-10 h-10"
+              referrerPolicy="no-referrer"
+            />
+            <AvatarFallback>{name.slice(0, 2)}</AvatarFallback>
+          </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuContent align="end" className="w-56" forceMount>
+        <DropdownMenuLabel>
+          <p className="text-sm font-medium leading-none">{name}</p>
+          <p className="text-xs text-muted-foreground">{email}</p>
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <LogoutLink>Logout</LogoutLink>

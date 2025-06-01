@@ -1,3 +1,4 @@
+import { title } from 'process';
 import { z } from 'zod';
 
 export const productSchema = z.object({
@@ -8,4 +9,10 @@ export const productSchema = z.object({
   images: z.array(z.string().url()).min(1, "At least one image is required"),
   category: z.enum(['men', 'women']),
   isFeatured: z.boolean().optional(),
+});
+
+
+export const bannerSchema = z.object({
+  title: z.string().min(3, 'Title is required'),
+  image: z.string().url().min(1, 'Image URL is required'),
 });

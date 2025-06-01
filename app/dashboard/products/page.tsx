@@ -84,7 +84,11 @@ export default async function ProductsRoute() {
                   <TableCell>{product.status}</TableCell>
                   <TableCell>€ {product.price}</TableCell>
                   <TableCell>
-                    {new Date(product.createdAt).toLocaleDateString()}
+                    {new Date(product.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
                   </TableCell>
                   <TableCell className="text-end">
                     <DropdownMenu>

@@ -9,15 +9,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
   return (
     <header className="w-full  sticky top-0 z-50">
-      <div className={"w-full transform transition-transform duration-300 ease-in-out border-b bg-background "}>
+      <div
+        className={
+          "w-full transform transition-transform duration-300 ease-in-out border-b bg-background "
+        }
+      >
         <div className="max-w-7xl mx-auto flex flex-wrap justify-between p-4 gap-6">
-          <nav className="hidden font-medium md:flex md:items-center md:gap-4 md:text-lg lg:gap-24">
+          <nav className="hidden font-medium md:flex md:items-center md:gap-4 md:text-lg lg:gap-6">
             <DashboardNavigation />
           </nav>
           <Sheet>
@@ -37,7 +47,10 @@ export function Header() {
           </Sheet>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="rounded-full p-0 w-10 h-10 flex items-center justify-center">
+              <Button
+                variant="outline"
+                className="rounded-full p-0 w-10 h-10 flex items-center justify-center"
+              >
                 <User2Icon className="text-4xl" />
               </Button>
             </DropdownMenuTrigger>
