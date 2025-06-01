@@ -6,8 +6,8 @@ export async function GET() {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
 
-    if (!user || user=== null || !user.id) {
-        throw new Error("Something went wrong...");
+    if (!user || !user.id) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     let dbUser = await prisma.user.findUnique({ where: { id: user.id } });
     if (!dbUser) {
@@ -21,5 +21,6 @@ export async function GET() {
             },
         });
     }
-    return NextResponse.redirect('http://localhost:3000/');
+    // Use a relative redirect for Vercel
+    return NextResponse.redirect('/');
 }
