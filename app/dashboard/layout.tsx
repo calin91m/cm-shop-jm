@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Header } from "../dashboard/components/Header";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -14,6 +15,7 @@ export default async function DashboardLayout({
   }
   return (
     <div>
+      <Header />
       <main className="p-4 max-w-7xl mx-auto">{children}</main>
     </div>
   );
