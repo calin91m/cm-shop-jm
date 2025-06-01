@@ -8,7 +8,7 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/dashboard/products", label: "Products" },
   { href: "/dashboard/orders", label: "Orders" },
-  { href: "/dashboard/productsMen", label: "Categories" },
+  { href: "/dashboard/banner", label: "Banner" },
 ];
 export function DashboardNavigation() {
   const pathname = usePathname();

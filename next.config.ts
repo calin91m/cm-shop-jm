@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "images.fashion-trading.com",
+        port: "",
       },
     ],
   },
