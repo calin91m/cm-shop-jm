@@ -13,15 +13,18 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { deleteProduct } from "@/app/actions";
 import { SubmitButtons } from "@/app/dashboard/components/SubmitButtons";
+
+type SubmissionResult = { status: "success" } | null;
+
 export default function DeleteProduct(props: {
   params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
-  const [lastResult, setLastResult] = React.useState<any>(null);
+  const [lastResult, setLastResult] = React.useState<SubmissionResult>(null);
   const { id } = React.use(props.params);
 
   React.useEffect(() => {
-    if (lastResult && (lastResult as any).status === "success") {
+    if (lastResult && lastResult.status === "success") {
       router.push("/dashboard/products");
     }
   }, [lastResult, router]);
@@ -32,7 +35,7 @@ export default function DeleteProduct(props: {
         <CardHeader>
           <CardTitle>Are you sure you want to delete this product?</CardTitle>
           <CardDescription>
-            This action can't be undone. This will permanently delete the
+            This action can&apos;t be undone. This will permanently delete the
             product.
           </CardDescription>
         </CardHeader>

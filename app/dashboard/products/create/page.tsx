@@ -29,13 +29,17 @@ import { useForm } from "@conform-to/react";
 import { productSchema } from "@/app/lib/zodSchemas";
 import { categories } from "@/app/lib/categories";
 import { createProduct } from "@/app/actions";
+import type { SubmissionResult } from "@conform-to/dom";
 
 import { useRouter } from "next/navigation";
 import { SubmitButtons } from "../../components/SubmitButtons";
 
 export default function ProductCreateRoute() {
   const router = useRouter();
-  const [lastResult, action] = useActionState(createProduct, null);
+  const [lastResult, action] = useActionState<SubmissionResult, FormData>(
+    createProduct,
+    {} as SubmissionResult
+  );
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
@@ -49,7 +53,7 @@ export default function ProductCreateRoute() {
   });
 
   React.useEffect(() => {
-    if (lastResult && (lastResult as any).status === "success") {
+    if (lastResult && lastResult.status === "success") {
       router.push("/dashboard/products");
     }
   }, [lastResult, router]);

@@ -31,6 +31,7 @@ import { editProduct } from "@/app/actions";
 import { productSchema } from "@/app/lib/zodSchemas";
 import { categories } from "@/app/lib/categories";
 import { type $Enums } from "@/lib/generated/prisma/client";
+import type { SubmissionResult } from "@conform-to/dom";
 import React from "react";
 
 interface iAppProps {
@@ -48,7 +49,10 @@ interface iAppProps {
 
 export function EditForm({ data }: iAppProps) {
   const router = useRouter();
-  const [lastResult, action] = useActionState(editProduct, null);
+  const [lastResult, action] = useActionState<SubmissionResult, FormData>(
+    editProduct,
+    {} as SubmissionResult
+  );
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
@@ -62,7 +66,7 @@ export function EditForm({ data }: iAppProps) {
   });
 
   React.useEffect(() => {
-    if (lastResult && (lastResult as any).status === "success") {
+    if (lastResult && lastResult.status === "success") {
       router.push("/dashboard/products");
     }
   }, [lastResult, router]);
