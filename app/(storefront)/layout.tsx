@@ -1,4 +1,4 @@
-import { Header } from "@/components/Header";
+import { Header } from "../dashboard/components/Header";
 
 export default function StoreFrontLayout({
   children,
